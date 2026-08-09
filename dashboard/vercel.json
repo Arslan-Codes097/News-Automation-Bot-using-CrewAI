@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/news.py": {
+      "runtime": "@vercel/python"
+    }
+  },
+  "rewrites": [
+    { "source": "/api/news", "destination": "/api/news" }
+  ]
+}

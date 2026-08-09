@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Football News Log</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; padding: 0 16px; background: #0f1115; color: #e6e6e6; }
+h1 { font-size: 22px; margin-bottom: 4px; }
+p.sub { color: #999; margin-top: 0; }
+.card { border: 1px solid #2a2d34; border-radius: 8px; padding: 16px; margin-bottom: 14px; background: #161920; }
+.headline { font-weight: bold; margin-bottom: 6px; }
+.summary { color: #ccc; margin-bottom: 8px; }
+.meta { font-size: 12px; color: #888; }
+a { color: #4da3ff; }
+</style>
+</head>
+<body>
+<h1>Football News Log</h1>
+<p class="sub">Auto-updated every 6 hours by GitHub Actions</p>
+<div id="news">Loading...</div>
+
+<script>
+fetch('/api/news')
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById('news');
+    if (!data.length) {
+      container.innerHTML = 'No news logged yet.';
+      return;
+    }
+    container.innerHTML = data.map(row => `
+      <div class="card">
+        <div class="headline">${row.Headline || ''}</div>
+        <div class="summary">${row.Summary || ''}</div>
+        <div class="meta">${row.Date || ''} &middot; <a href="${row['Source URL'] || '#'}" target="_blank">Source</a></div>
+      </div>
+    `).join('');
+  })
+  .catch(err => {
+    document.getElementById('news').innerText = 'Failed to load news.';
+  });
+</script>
+</body>
+</html>
