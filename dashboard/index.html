@@ -33,6 +33,10 @@ fetch('/api/news')
   .then(res => res.json())
   .then(data => {
     const container = document.getElementById('news');
+    if (data.error) {
+      container.innerHTML = '<span style="color: #f44336;">Error: ' + data.error + '</span>';
+      return;
+    }
     if (!data.length) {
       container.innerHTML = 'No news logged yet.';
       return;
