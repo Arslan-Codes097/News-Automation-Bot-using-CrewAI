@@ -9,9 +9,9 @@ from tools.sheets_logger import SheetsLoggerTool
 
 
 def build_crew():
-    llm_researcher = LLM(model="groq/llama-3.1-8b-instant", api_key=os.getenv("GROQ_API_KEY"))
+    llm_researcher = LLM(model="groq/gemma2-9b-it", api_key=os.getenv("GROQ_API_KEY"))
     llm_summarizer = LLM(model="groq/gemma2-9b-it", api_key=os.getenv("GROQ_API_KEY"))
-    llm_publisher = LLM(model="groq/mixtral-8x7b-32768", api_key=os.getenv("GROQ_API_KEY"))
+    llm_publisher = LLM(model="groq/gemma2-9b-it", api_key=os.getenv("GROQ_API_KEY"))
 
     news_fetcher_tool = NewsFetcherTool()
     summarizer_tool = SummarizerTool()
