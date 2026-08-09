@@ -15,11 +15,20 @@ a { color: #4da3ff; }
 </style>
 </head>
 <body>
-<h1>Football News Log</h1>
-<p class="sub">Auto-updated every 6 hours by GitHub Actions</p>
+<h1>Dynamic News Bot Dashboard</h1>
+<p class="sub">Auto-updated every 6 hours, or trigger it manually below!</p>
+
+<div class="trigger-section" style="margin-bottom: 20px; padding: 16px; background: #161920; border: 1px solid #2a2d34; border-radius: 8px;">
+    <h3 style="margin-top: 0;">Trigger Bot Manually</h3>
+    <input type="text" id="topicInput" placeholder="Enter a topic (e.g. AI, Crypto, NFL)" style="padding: 8px; width: 60%; background: #0f1115; color: #fff; border: 1px solid #2a2d34; border-radius: 4px;">
+    <button onclick="triggerBot()" style="padding: 8px 16px; background: #4da3ff; color: #000; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-left: 8px;">Run Pipeline</button>
+    <div id="triggerStatus" style="margin-top: 8px; font-size: 14px; color: #aaa;"></div>
+</div>
+
 <div id="news">Loading...</div>
 
 <script>
+// Fetch latest news on load
 fetch('/api/news')
   .then(res => res.json())
   .then(data => {
@@ -39,6 +48,35 @@ fetch('/api/news')
   .catch(err => {
     document.getElementById('news').innerText = 'Failed to load news.';
   });
+
+// Function to trigger GitHub action via our Vercel API
+function triggerBot() {
+    const topic = document.getElementById('topicInput').value || 'football';
+    const statusDiv = document.getElementById('triggerStatus');
+    statusDiv.innerText = 'Triggering GitHub Action...';
+    
+    fetch('/api/trigger', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ topic: topic })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success) {
+            statusDiv.style.color = '#4caf50';
+            statusDiv.innerText = 'Success! The bot is now running in the background. Check back in a few minutes!';
+        } else {
+            statusDiv.style.color = '#f44336';
+            statusDiv.innerText = 'Error: ' + data.error;
+        }
+    })
+    .catch(err => {
+        statusDiv.style.color = '#f44336';
+        statusDiv.innerText = 'Error triggering bot.';
+    });
+}
 </script>
 </body>
 </html>
