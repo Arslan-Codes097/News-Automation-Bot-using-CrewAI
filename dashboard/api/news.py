@@ -10,15 +10,16 @@ def get_news_rows():
     creds_json = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
     
     if not creds_json:
-        raise ValueError("GOOGLE_SERVICE_ACCOUNT_JSON environment variable is empty or not set in Vercel.")
+        raise ValueError("GOOGLE_SERVICE_ACCOUNT_JSON is completely empty in Vercel.")
         
-    # Strip any accidental single quotes added during copy-paste
-    creds_json = creds_json.strip("'").strip('"')
+    original_creds = creds_json
+    creds_json = creds_json.strip().strip("'").strip('"')
     
     try:
         creds_dict = json.loads(creds_json)
-    except json.JSONDecodeError:
-        raise ValueError("GOOGLE_SERVICE_ACCOUNT_JSON is not valid JSON. Ensure you didn't paste extra text.")
+    except Exception as e:
+        debug_info = f"Failed to parse JSON. Error: {str(e)}. First 15 chars received by Vercel: '{original_creds[:15]}...'"
+        raise ValueError(debug_info)
 
     credentials = Credentials.from_service_account_info(creds_dict, scopes=scopes)
 
