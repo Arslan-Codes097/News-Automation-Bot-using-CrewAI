@@ -8,7 +8,18 @@ from google.oauth2.service_account import Credentials
 def get_news_rows():
     scopes = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
     creds_json = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
-    creds_dict = json.loads(creds_json)
+    
+    if not creds_json:
+        raise ValueError("GOOGLE_SERVICE_ACCOUNT_JSON environment variable is empty or not set in Vercel.")
+        
+    # Strip any accidental single quotes added during copy-paste
+    creds_json = creds_json.strip("'").strip('"')
+    
+    try:
+        creds_dict = json.loads(creds_json)
+    except json.JSONDecodeError:
+        raise ValueError("GOOGLE_SERVICE_ACCOUNT_JSON is not valid JSON. Ensure you didn't paste extra text.")
+
     credentials = Credentials.from_service_account_info(creds_dict, scopes=scopes)
 
     client = gspread.authorize(credentials)
