@@ -18,8 +18,15 @@ class SlackTool(BaseTool):
     def _run(self, headline: str, summary: str, link: str) -> str:
         webhook_url = os.getenv("SLACK_WEBHOOK_URL")
 
+        if link.lower() in ["n/a", "none", "", "null"]:
+            text = f"*{headline}*\n{summary}"
+        else:
+            if not link.startswith("http"):
+                link = "https://" + link
+            text = f"*{headline}*\n{summary}\n<{link}|Read more>"
+
         message = {
-            "text": f"*{headline}*\n{summary}\n<{link}|Read more>"
+            "text": text
         }
 
         response = requests.post(webhook_url, json=message, timeout=15)

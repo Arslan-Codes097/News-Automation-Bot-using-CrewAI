@@ -59,7 +59,7 @@ def build_crew():
     )
 
     publish_task = Task(
-        description="For each summarized update, post it to Slack and log it as a new row in Google Sheets. ONLY process actual news articles. Ignore any conversational text or introductory sentences like 'Here are the unique articles'.",
+        description="For each summarized update, post it to Slack and log it as a new row in Google Sheets. IMPORTANT: ONLY post actual news articles to Slack and Sheets! DO NOT post your final confirmation message, conversational text, or summaries of your own work to Slack.",
         expected_output="Confirmation that all updates were posted to Slack and logged to Sheets.",
         agent=publisher,
         context=[summarize_task]
