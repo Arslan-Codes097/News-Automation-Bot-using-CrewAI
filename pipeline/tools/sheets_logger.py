@@ -28,6 +28,9 @@ class SheetsLoggerTool(BaseTool):
                 creds_json = creds_json[1:-1]
                 
             creds_dict = json.loads(creds_json)
+            if "private_key" in creds_dict:
+                creds_dict["private_key"] = creds_dict["private_key"].replace('\\n', '\n')
+            
             credentials = Credentials.from_service_account_info(creds_dict, scopes=scopes)
 
             client = gspread.authorize(credentials)
