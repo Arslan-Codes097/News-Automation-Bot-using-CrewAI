@@ -1,9 +1,9 @@
 crewai>=1.15.14
-requests==2.32.3
-gspread==6.1.4
-google-auth==2.36.0
+requests>=2.32.3
+gspread>=6.1.4
+google-auth>=2.36.0
 pydantic>=2.11.9
-python-dotenv==1.0.1
+python-dotenv>=1.2.2
 google-generativeai
 litellm>=1.96.0
 langchain-google-genai>=4.3.3
