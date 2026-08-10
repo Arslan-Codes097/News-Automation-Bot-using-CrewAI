@@ -78,7 +78,7 @@ def build_crew():
 
 if __name__ == "__main__":
     crew = build_crew()
-    # By default, use 'technology' if no topic is provided in the environment
-    news_topic = os.getenv("NEWS_TOPIC", "technology")
+    # By default, use 'football' if no topic is provided in the environment
+    news_topic = os.getenv("NEWS_TOPIC", "football")
     result = crew.kickoff(inputs={"topic": news_topic})
     print(result)

@@ -1,4 +1,4 @@
-# News Automation Bot
+# Football News Automation Bot
 
 Multi-agent CrewAI pipeline that fetches news, summarizes it, posts to
 Slack, and logs it to Google Sheets — fully automated, no manual trigger.
