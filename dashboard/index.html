@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Football News Log</title>
+<title>Dynamic News Log</title>
 <style>
 body { font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; padding: 0 16px; background: #0f1115; color: #e6e6e6; }
 h1 { font-size: 22px; margin-bottom: 4px; }
@@ -55,7 +55,7 @@ fetch('/api/news')
 
 // Function to trigger GitHub action via our Vercel API
 function triggerBot() {
-    const topic = document.getElementById('topicInput').value || 'football';
+    const topic = document.getElementById('topicInput').value || 'technology';
     const statusDiv = document.getElementById('triggerStatus');
     statusDiv.innerText = 'Triggering GitHub Action...';
     

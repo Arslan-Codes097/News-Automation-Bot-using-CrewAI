@@ -1,6 +1,6 @@
-# Football News Automation Bot
+# News Automation Bot
 
-Multi-agent CrewAI pipeline that fetches football news, summarizes it, posts to
+Multi-agent CrewAI pipeline that fetches news, summarizes it, posts to
 Slack, and logs it to Google Sheets — fully automated, no manual trigger.
 
 ## How it's split
@@ -31,7 +31,7 @@ shared data store connecting them.
    ```
 4. Once it works locally, add the same 5 values as GitHub repo secrets:
    Settings > Secrets and variables > Actions > New repository secret.
-5. Push to GitHub. Use the Actions tab > "Run Football News Pipeline" >
+5. Push to GitHub. Use the Actions tab > "Run News Pipeline" >
    "Run workflow" to trigger it manually and confirm it works before relying
    on the schedule.
 6. Deploy the dashboard: import the repo into Vercel, set the root directory

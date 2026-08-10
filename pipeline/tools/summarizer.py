@@ -10,7 +10,7 @@ class SummarizerInput(BaseModel):
 
 class SummarizerTool(BaseTool):
     name: str = "summarizer"
-    description: str = "Summarizes a football news article into a short, clear 2-3 sentence update"
+    description: str = "Summarizes a news article into a short, clear 2-3 sentence update"
     args_schema: type[BaseModel] = SummarizerInput
 
     def _run(self, article_text: str) -> str:
@@ -22,7 +22,7 @@ class SummarizerTool(BaseTool):
         }
 
         prompt = (
-            "Summarize the following football news article in 2-3 clear sentences. "
+            "Summarize the following news article in 2-3 clear sentences. "
             "No fluff, just the key facts.\n\n"
             f"{article_text}"
         )

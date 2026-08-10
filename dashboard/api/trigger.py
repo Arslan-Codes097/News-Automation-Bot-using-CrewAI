@@ -9,7 +9,7 @@ class handler(BaseHTTPRequestHandler):
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
             data = json.loads(post_data)
-            topic = data.get("topic", "football")
+            topic = data.get("topic", "technology")
 
             # Trigger GitHub Action
             github_token = os.getenv("GITHUB_TOKEN")

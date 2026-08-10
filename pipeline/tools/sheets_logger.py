@@ -15,7 +15,7 @@ class SheetsLoggerInput(BaseModel):
 
 class SheetsLoggerTool(BaseTool):
     name: str = "sheets_logger"
-    description: str = "Logs a football news update as a new row in Google Sheets"
+    description: str = "Logs a news update as a new row in Google Sheets"
     args_schema: type[BaseModel] = SheetsLoggerInput
 
     def _run(self, headline: str, summary: str, link: str) -> str:

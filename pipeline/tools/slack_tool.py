@@ -12,7 +12,7 @@ class SlackToolInput(BaseModel):
 
 class SlackTool(BaseTool):
     name: str = "slack_poster"
-    description: str = "Posts a formatted football news update to Slack"
+    description: str = "Posts a formatted news update to Slack"
     args_schema: type[BaseModel] = SlackToolInput
 
     def _run(self, headline: str, summary: str, link: str) -> str:
