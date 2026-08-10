@@ -4,8 +4,7 @@ load_dotenv()
 from crewai import Agent, Task, Crew, Process, LLM
 from tools.news_fetcher import NewsFetcherTool
 from tools.summarizer import SummarizerTool
-from tools.slack_tool import SlackTool
-from tools.sheets_logger import SheetsLoggerTool
+from tools.publish_tool import PublishTool
 
 
 def build_crew():
@@ -15,8 +14,7 @@ def build_crew():
 
     news_fetcher_tool = NewsFetcherTool()
     summarizer_tool = SummarizerTool()
-    slack_tool = SlackTool()
-    sheets_tool = SheetsLoggerTool()
+    publish_tool = PublishTool()
 
     researcher = Agent(
         role="{topic} News Researcher",
@@ -42,7 +40,7 @@ def build_crew():
         role="News Publisher",
         goal="Distribute summarized {topic} news to Slack and log it to Google Sheets",
         backstory="A newsroom assistant responsible for getting finished updates out to the team and keeping records.",
-        tools=[slack_tool, sheets_tool],
+        tools=[publish_tool],
         llm=llm_publisher,
         verbose=False,
         max_rpm=14
@@ -62,8 +60,8 @@ def build_crew():
     )
 
     publish_task = Task(
-        description="You have received 3 summarized updates. YOU MUST USE YOUR TOOLS. Call the 'slack_poster' tool exactly 3 times (once for each article). Then, call the 'sheets_logger' tool exactly 3 times. DO NOT write the summaries in your final output; you must literally call the functions! If you don't call the tools, the user will not receive the news.",
-        expected_output="Confirmation that exactly 3 updates were posted via tool calls.",
+        description="You have received 3 summarized updates. YOU MUST call the 'publish_news' tool exactly 3 times (once for each article). DO NOT write the summaries in your final output; just literally call the function 3 times to distribute them.",
+        expected_output="Confirmation that exactly 3 updates were published via the tool.",
         agent=publisher,
         context=[summarize_task]
     )
