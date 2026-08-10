@@ -52,15 +52,15 @@ def build_crew():
     )
 
     summarize_task = Task(
-        description="Take the fetched articles and summarize each one into a short, clear 2-3 sentence update. Remove duplicate stories covering the same event.",
-        expected_output="A list of summarized {topic} updates, each with headline, summary, and source link.",
+        description="Take the 3 fetched articles and summarize EACH ONE into a short, clear 2-3 sentence update. You MUST output exactly 3 separate summaries. Remove duplicate stories covering the same event.",
+        expected_output="A list of exactly 3 summarized {topic} updates, each with headline, summary, and source link.",
         agent=summarizer,
         context=[fetch_task]
     )
 
     publish_task = Task(
-        description="For each summarized update, post it to Slack and log it as a new row in Google Sheets. IMPORTANT: ONLY post actual news articles to Slack and Sheets! DO NOT post your final confirmation message, conversational text, or summaries of your own work to Slack.",
-        expected_output="Confirmation that all updates were posted to Slack and logged to Sheets.",
+        description="You will receive 3 summarized updates. You MUST call the slack_poster tool exactly 3 times (once for each article) to post them as 3 separate Slack messages. Then, call the sheets_logger tool exactly 3 times. IMPORTANT: ONLY post actual news articles! DO NOT post your final confirmation message or conversational text to Slack.",
+        expected_output="Confirmation that exactly 3 updates were posted to Slack and logged to Sheets.",
         agent=publisher,
         context=[summarize_task]
     )
