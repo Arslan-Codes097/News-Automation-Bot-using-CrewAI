@@ -4,17 +4,19 @@ load_dotenv()
 from crewai import Agent, Task, Crew, Process, LLM
 from tools.news_fetcher import NewsFetcherTool
 from tools.summarizer import SummarizerTool
-from tools.publish_tool import PublishTool
+from tools.slack_tool import SlackTool
+from tools.sheets_logger import SheetsLoggerTool
 
 
 def build_crew():
-    llm_researcher = LLM(model="gemini/gemini-flash-latest", api_key=os.getenv("GEMINI_API_KEY"))
-    llm_summarizer = LLM(model="gemini/gemini-flash-latest", api_key=os.getenv("GEMINI_API_KEY"))
-    llm_publisher = LLM(model="gemini/gemini-flash-latest", api_key=os.getenv("GEMINI_API_KEY"))
+    llm_researcher = LLM(model="gemini/gemini-3.1-flash-lite", api_key=os.getenv("GEMINI_API_KEY"))
+    llm_summarizer = LLM(model="gemini/gemini-3.1-flash-lite", api_key=os.getenv("GEMINI_API_KEY"))
+    llm_publisher = LLM(model="gemini/gemini-3.1-flash-lite", api_key=os.getenv("GEMINI_API_KEY"))
 
     news_fetcher_tool = NewsFetcherTool()
     summarizer_tool = SummarizerTool()
-    publish_tool = PublishTool()
+    slack_tool = SlackTool()
+    sheets_tool = SheetsLoggerTool()
 
     researcher = Agent(
         role="{topic} News Researcher",
@@ -40,7 +42,7 @@ def build_crew():
         role="News Publisher",
         goal="Distribute summarized {topic} news to Slack and log it to Google Sheets",
         backstory="A newsroom assistant responsible for getting finished updates out to the team and keeping records.",
-        tools=[publish_tool],
+        tools=[slack_tool, sheets_tool],
         llm=llm_publisher,
         verbose=False,
         max_rpm=14
@@ -60,8 +62,8 @@ def build_crew():
     )
 
     publish_task = Task(
-        description="You have received 3 summarized updates. YOU MUST call the 'publish_news' tool exactly 3 times (once for each article). DO NOT write the summaries in your final output; just literally call the function 3 times to distribute them.",
-        expected_output="Confirmation that exactly 3 updates were published via the tool.",
+        description="You have received 3 summarized updates. YOU MUST USE YOUR TOOLS. Call the 'slack_poster' tool exactly 3 times (once for each article). Then, call the 'sheets_logger' tool exactly 3 times. DO NOT write the summaries in your final output; you must literally call the functions! If you don't call the tools, the user will not receive the news.",
+        expected_output="Confirmation that exactly 3 updates were posted via tool calls.",
         agent=publisher,
         context=[summarize_task]
     )
@@ -70,8 +72,7 @@ def build_crew():
         agents=[researcher, summarizer, publisher],
         tasks=[fetch_task, summarize_task, publish_task],
         process=Process.sequential,
-        verbose=False,
-        max_rpm=4
+        verbose=False
     )
 
     return crew

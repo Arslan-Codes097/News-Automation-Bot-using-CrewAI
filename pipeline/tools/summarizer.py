@@ -14,9 +14,6 @@ class SummarizerTool(BaseTool):
     args_schema: type[BaseModel] = SummarizerInput
 
     def _run(self, article_text: str) -> str:
-        # Sleep for 15 seconds to respect Gemini API free tier rate limit
-        time.sleep(15)
-        
         api_key = os.getenv("GEMINI_API_KEY")
         import litellm
 
