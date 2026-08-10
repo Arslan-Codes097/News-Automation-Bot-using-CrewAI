@@ -33,5 +33,5 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          NEWS_TOPIC: ${{ github.event.inputs.topic || github.event.client_payload.topic || 'football' }}
+          NEWS_TOPIC: ${{ github.event.inputs.topic || github.event.client_payload.topic || 'FIFA football (soccer)' }}
         run: python main.py
