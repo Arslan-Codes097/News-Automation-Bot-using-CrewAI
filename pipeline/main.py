@@ -72,7 +72,8 @@ def build_crew():
         agents=[researcher, summarizer, publisher],
         tasks=[fetch_task, summarize_task, publish_task],
         process=Process.sequential,
-        verbose=False
+        verbose=False,
+        max_rpm=10
     )
 
     return crew
