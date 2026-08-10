@@ -9,9 +9,9 @@ from tools.sheets_logger import SheetsLoggerTool
 
 
 def build_crew():
-    llm_researcher = LLM(model="groq/llama-3.1-8b-instant", api_key=os.getenv("GROQ_API_KEY"))
-    llm_summarizer = LLM(model="groq/llama-3.1-8b-instant", api_key=os.getenv("GROQ_API_KEY"))
-    llm_publisher = LLM(model="groq/llama-3.1-8b-instant", api_key=os.getenv("GROQ_API_KEY"))
+    llm_researcher = LLM(model="gemini/gemini-3.5-flash", api_key=os.getenv("GEMINI_API_KEY"))
+    llm_summarizer = LLM(model="gemini/gemini-3.5-flash", api_key=os.getenv("GEMINI_API_KEY"))
+    llm_publisher = LLM(model="gemini/gemini-3.5-flash", api_key=os.getenv("GEMINI_API_KEY"))
 
     news_fetcher_tool = NewsFetcherTool()
     summarizer_tool = SummarizerTool()
@@ -69,8 +69,7 @@ def build_crew():
         agents=[researcher, summarizer, publisher],
         tasks=[fetch_task, summarize_task, publish_task],
         process=Process.sequential,
-        verbose=True,
-        max_rpm=2
+        verbose=True
     )
 
     return crew

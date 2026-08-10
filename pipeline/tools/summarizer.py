@@ -14,12 +14,10 @@ class SummarizerTool(BaseTool):
     args_schema: type[BaseModel] = SummarizerInput
 
     def _run(self, article_text: str) -> str:
-        api_key = os.getenv("GROQ_API_KEY")
-        url = "https://api.groq.com/openai/v1/chat/completions"
-        headers = {
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
-        }
+        api_key = os.getenv("GEMINI_API_KEY")
+        import google.generativeai as genai
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel("gemini-3.5-flash")
 
         prompt = (
             "Summarize the following news article in 2-3 clear sentences. "
@@ -27,15 +25,5 @@ class SummarizerTool(BaseTool):
             f"{article_text}"
         )
 
-        payload = {
-            "model": "llama-3.3-70b-versatile",
-            "messages": [{"role": "user", "content": prompt}],
-            "temperature": 0.3,
-            "max_tokens": 200
-        }
-
-        response = requests.post(url, headers=headers, json=payload, timeout=30)
-        response.raise_for_status()
-        data = response.json()
-
-        return data["choices"][0]["message"]["content"].strip()
+        response = model.generate_content(prompt)
+        return response.text.strip()
