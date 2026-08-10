@@ -73,7 +73,7 @@ def build_crew():
         tasks=[fetch_task, summarize_task, publish_task],
         process=Process.sequential,
         verbose=False,
-        max_rpm=10
+        max_rpm=4
     )
 
     return crew
