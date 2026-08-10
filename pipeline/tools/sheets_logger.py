@@ -19,6 +19,8 @@ class SheetsLoggerTool(BaseTool):
     args_schema: type[BaseModel] = SheetsLoggerInput
 
     def _run(self, headline: str, summary: str, link: str) -> str:
+        import time
+        time.sleep(10)
         scopes = ["https://www.googleapis.com/auth/spreadsheets"]
 
         creds_json = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")

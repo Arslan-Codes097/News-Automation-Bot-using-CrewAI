@@ -14,6 +14,8 @@ class NewsFetcherTool(BaseTool):
     args_schema: type[BaseModel] = NewsFetcherInput
 
     def _run(self, query: str) -> str:
+        import time
+        time.sleep(10)
         api_key = os.getenv("SERPER_API_KEY")
         url = "https://google.serper.dev/news"
         headers = {

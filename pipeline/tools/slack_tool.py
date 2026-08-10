@@ -16,6 +16,8 @@ class SlackTool(BaseTool):
     args_schema: type[BaseModel] = SlackToolInput
 
     def _run(self, headline: str, summary: str, link: str) -> str:
+        import time
+        time.sleep(10)
         webhook_url = os.getenv("SLACK_WEBHOOK_URL")
 
         if link.lower() in ["n/a", "none", "", "null"]:
