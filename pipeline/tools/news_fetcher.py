@@ -20,7 +20,7 @@ class NewsFetcherTool(BaseTool):
             "X-API-KEY": api_key,
             "Content-Type": "application/json"
         }
-        payload = {"q": query, "num": 10}
+        payload = {"q": query, "num": 3}
 
         response = requests.post(url, headers=headers, json=payload, timeout=15)
         response.raise_for_status()

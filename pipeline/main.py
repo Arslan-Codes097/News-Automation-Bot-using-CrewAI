@@ -46,7 +46,7 @@ def build_crew():
     )
 
     fetch_task = Task(
-        description="Search for the latest news using the query '{topic} news today'. Return the raw list of articles with titles, links, and snippets.",
+        description="Search for the latest news using the query '{topic} news today'. Return a maximum of 3 raw articles with titles, links, and snippets. Do not exceed this limit.",
         expected_output="A list of {topic} news articles with title, source, link, and snippet for each.",
         agent=researcher
     )
