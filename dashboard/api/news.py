@@ -17,6 +17,9 @@ def get_news_rows():
     
     try:
         creds_dict = json.loads(creds_json)
+        # FIX: Vercel often escapes newlines in the private key as literal '\\n'
+        if "private_key" in creds_dict:
+            creds_dict["private_key"] = creds_dict["private_key"].replace('\\n', '\n')
     except Exception as e:
         debug_info = f"Failed to parse JSON. Error: {str(e)}. First 15 chars received by Vercel: '{original_creds[:15]}...'"
         raise ValueError(debug_info)
